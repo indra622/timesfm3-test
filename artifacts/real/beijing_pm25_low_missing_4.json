@@ -1,0 +1,150 @@
+{
+  "dataset": "beijing_pm25_low_missing_4",
+  "targets": 4,
+  "target_names": [
+    "Wanliu",
+    "Guanyuan",
+    "Nongzhanguan",
+    "Gucheng"
+  ],
+  "context_length": 336,
+  "horizon": 24,
+  "season_length": 24,
+  "metadata": {
+    "source": "UCI Beijing Multi-Site Air Quality, DOI 10.24432/C5RK5G",
+    "license": "CC BY 4.0",
+    "selection": "four stations with the fewest total PM2.5 missing values",
+    "selected_stations": [
+      "Wanliu",
+      "Guanyuan",
+      "Nongzhanguan",
+      "Gucheng"
+    ],
+    "selected_station_missing_counts": {
+      "Wanliu": 382,
+      "Guanyuan": 616,
+      "Nongzhanguan": 628,
+      "Gucheng": 646
+    },
+    "context_start": "2017-02-10 18:00:00",
+    "forecast_start": "2017-02-24 18:00:00",
+    "forecast_end": "2017-02-25 17:00:00",
+    "hours_skipped_from_dataset_end": 78,
+    "context_imputation": "linear interpolation within context only",
+    "holdout_imputation": "none",
+    "past_only_covariates": [
+      "TEMP",
+      "PRES",
+      "DEWP",
+      "RAIN",
+      "WSPM"
+    ],
+    "past_future_covariates": [
+      "hour_sin",
+      "hour_cos",
+      "weekday_sin",
+      "weekday_cos"
+    ],
+    "archive_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4"
+  },
+  "timing": {
+    "univariate_seconds": 0.10333829105366021,
+    "multivariate_seconds": 0.0971474580001086,
+    "multivariate_covariates_seconds": 0.12369520799256861
+  },
+  "metrics": {
+    "seasonal_naive": {
+      "mae": 22.536458333333332,
+      "rmse": 28.85763366655924,
+      "wape": 2.3985587583148558,
+      "mean_rmsse": 1.3115052664661586,
+      "per_target_mae": [
+        17.166666666666668,
+        26.625,
+        25.645833333333332,
+        20.708333333333332
+      ],
+      "per_target_rmsse": [
+        1.3291096859634943,
+        1.4247720316731045,
+        1.1379371188211773,
+        1.3542022294068583
+      ]
+    },
+    "timesfm3_univariate": {
+      "mae": 23.113726178805035,
+      "rmse": 25.075778887960563,
+      "wape": 2.4599974647065226,
+      "mean_rmsse": 1.178661247192406,
+      "per_target_mae": [
+        21.78961928685506,
+        21.63456630706787,
+        28.154531637827557,
+        20.876187483469646
+      ],
+      "per_target_rmsse": [
+        1.4084102695606755,
+        0.9950713115977953,
+        1.0198410840781782,
+        1.291322323532975
+      ],
+      "p10_p90_coverage": 0.5416666666666666,
+      "p10_p90_mean_width": 93.3139419555664
+    },
+    "timesfm3_multivariate": {
+      "mae": 28.352055072784424,
+      "rmse": 30.741492703174607,
+      "wape": 3.017513621937145,
+      "mean_rmsse": 1.4625973638605472,
+      "per_target_mae": [
+        26.711724440256756,
+        29.564369837443035,
+        30.67043701807658,
+        26.461688995361328
+      ],
+      "per_target_rmsse": [
+        1.7318961109579194,
+        1.3570467483090318,
+        1.1170600761361955,
+        1.6443865200390417
+      ],
+      "p10_p90_coverage": 0.4270833333333333,
+      "p10_p90_mean_width": 101.99837493896484
+    },
+    "timesfm3_multivariate_covariates": {
+      "mae": 29.11629569530487,
+      "rmse": 31.47567954596416,
+      "wape": 3.0988518700102743,
+      "mean_rmsse": 1.4871182031351529,
+      "per_target_mae": [
+        24.563069661458332,
+        30.94661029179891,
+        31.685829003651936,
+        29.269673824310303
+      ],
+      "per_target_rmsse": [
+        1.5847872303198138,
+        1.41039607674131,
+        1.142843642890222,
+        1.8104458625892652
+      ],
+      "p10_p90_coverage": 0.5104166666666666,
+      "p10_p90_mean_width": 108.65328216552734
+    }
+  },
+  "output_shapes": {
+    "forecast": [
+      4,
+      24
+    ],
+    "quantiles": [
+      4,
+      24,
+      9
+    ]
+  },
+  "artifacts": {
+    "plot": "/Volumes/nvme1/codes/timesfm3-test/artifacts/real/beijing_pm25_low_missing_4.png",
+    "results": "/Volumes/nvme1/codes/timesfm3-test/artifacts/real/beijing_pm25_low_missing_4.json"
+  }
+}

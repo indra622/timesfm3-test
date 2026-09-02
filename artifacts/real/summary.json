@@ -1,0 +1,75 @@
+{
+  "model": {
+    "id": "google/timesfm-3.0-pytorch",
+    "upstream_commit": "7360853c4f8ea28bb1b3eaf5b7af2d8e6b8fcf05",
+    "license": "timesfm-non-commercial-license-v1.0"
+  },
+  "environment": {
+    "device": "mps",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.12",
+    "torch": "2.13.0",
+    "mps_available": true
+  },
+  "model_load_seconds": 1.2020809169625863,
+  "benchmarks": [
+    {
+      "dataset": "m5_ca1_foods3_top16",
+      "targets": 16,
+      "metrics": {
+        "seasonal_naive": {
+          "mae": 8.408482142857142,
+          "wape": 0.31732794204363574,
+          "mean_rmsse": 0.7438089913582889
+        },
+        "timesfm3_univariate": {
+          "mae": 6.671208788241659,
+          "wape": 0.2517649344732763,
+          "mean_rmsse": 0.6226795606941355,
+          "p10_p90_coverage": 0.8459821428571429
+        },
+        "timesfm3_multivariate": {
+          "mae": 6.594785166638238,
+          "wape": 0.24888078128665914,
+          "mean_rmsse": 0.6157647513618579,
+          "p10_p90_coverage": 0.8504464285714286
+        },
+        "timesfm3_multivariate_covariates": {
+          "mae": 6.552257940173149,
+          "wape": 0.24727584510130324,
+          "mean_rmsse": 0.6121708574261863,
+          "p10_p90_coverage": 0.8504464285714286
+        }
+      }
+    },
+    {
+      "dataset": "beijing_pm25_low_missing_4",
+      "targets": 4,
+      "metrics": {
+        "seasonal_naive": {
+          "mae": 22.536458333333332,
+          "wape": 2.3985587583148558,
+          "mean_rmsse": 1.3115052664661586
+        },
+        "timesfm3_univariate": {
+          "mae": 23.113726178805035,
+          "wape": 2.4599974647065226,
+          "mean_rmsse": 1.178661247192406,
+          "p10_p90_coverage": 0.5416666666666666
+        },
+        "timesfm3_multivariate": {
+          "mae": 28.352055072784424,
+          "wape": 3.017513621937145,
+          "mean_rmsse": 1.4625973638605472,
+          "p10_p90_coverage": 0.4270833333333333
+        },
+        "timesfm3_multivariate_covariates": {
+          "mae": 29.11629569530487,
+          "wape": 3.0988518700102743,
+          "mean_rmsse": 1.4871182031351529,
+          "p10_p90_coverage": 0.5104166666666666
+        }
+      }
+    }
+  ]
+}

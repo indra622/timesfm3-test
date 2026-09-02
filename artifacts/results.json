@@ -1,0 +1,98 @@
+{
+  "model": {
+    "id": "google/timesfm-3.0-pytorch",
+    "upstream_commit": "7360853c4f8ea28bb1b3eaf5b7af2d8e6b8fcf05",
+    "license": "timesfm-non-commercial-license-v1.0"
+  },
+  "environment": {
+    "device": "mps",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.12",
+    "torch": "2.13.0",
+    "mps_available": true
+  },
+  "data": {
+    "context_length": 256,
+    "horizon": 64,
+    "targets": 2,
+    "seed": 7
+  },
+  "timing": {
+    "load_seconds": 1.226939957938157,
+    "univariate_seconds": 0.15113845898304135,
+    "multivariate_covariate_seconds": 0.10199104202911258,
+    "counterfactual_seconds": 0.0694321250775829
+  },
+  "metrics": {
+    "seasonal_naive": {
+      "mae": 7.447052538394928,
+      "rmse": 12.799313796790626,
+      "wape": 0.061384359027002955,
+      "per_target_mae": [
+        8.939772248268127,
+        5.9543328285217285
+      ],
+      "per_target_wape": [
+        0.06078640875459418,
+        0.0623045464531705
+      ]
+    },
+    "timesfm3_univariate": {
+      "mae": 6.472398161888123,
+      "rmse": 11.429037328321156,
+      "wape": 0.05335050484559706,
+      "per_target_mae": [
+        7.849232912063599,
+        5.0955634117126465
+      ],
+      "per_target_wape": [
+        0.053371234406463054,
+        0.053318612921566554
+      ]
+    },
+    "timesfm3_multivariate_covariates": {
+      "mae": 2.4358075857162476,
+      "rmse": 3.0795512424261045,
+      "wape": 0.02007780750725437,
+      "per_target_mae": [
+        2.6339006423950195,
+        2.2377145290374756
+      ],
+      "per_target_wape": [
+        0.01790933332766151,
+        0.023414846438465458
+      ]
+    }
+  },
+  "promotion_response": {
+    "scheduled_promotion_days": 11,
+    "synthetic_true_lift_per_target": [
+      32.8,
+      21.0
+    ],
+    "mean_predicted_lift_on_promotion_days": 27.14531898498535,
+    "per_target_mean_predicted_lift": [
+      32.5536994934082,
+      21.7369441986084
+    ]
+  },
+  "output_shapes": {
+    "univariate_forecast": [
+      2,
+      64
+    ],
+    "multivariate_forecast": [
+      2,
+      64
+    ],
+    "multivariate_quantiles": [
+      2,
+      64,
+      9
+    ]
+  },
+  "artifacts": {
+    "plot": "artifacts/forecast.png",
+    "results": "artifacts/results.json"
+  }
+}

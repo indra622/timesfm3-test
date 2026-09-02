@@ -1,0 +1,29 @@
+[project]
+name = "timesfm3-test"
+version = "0.1.0"
+description = "A reproducible TimesFM 3 smoke test and synthetic benchmark."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "chronos-forecasting==2.3.1",
+  "fev==0.9.0",
+  "gdown>=5.2",
+  "matplotlib>=3.9",
+  "numpy>=1.26",
+  "pandas>=2.2,<3",
+  "scipy>=1.14",
+  "tables>=3.10",
+  "timesfm",
+  "torch>=2.0",
+  "torchinfo>=1.8",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[tool.uv.sources]
+timesfm = { path = "upstream-timesfm", editable = true }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

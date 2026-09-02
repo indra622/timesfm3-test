@@ -1,0 +1,149 @@
+{
+  "benchmark": "AutoGluon FEV-Bench multivariate subset",
+  "scope": {
+    "task_count": 3,
+    "task_names": [
+      "ETT_1W",
+      "uci_air_quality_1D",
+      "gvar"
+    ],
+    "selection_rule": "Three lightweight multivariate tasks from different domains, fixed before execution",
+    "not_full_benchmark": true
+  },
+  "provenance": {
+    "timesfm_commit": "7360853c4f8ea28bb1b3eaf5b7af2d8e6b8fcf05",
+    "fev_tasks_commit": "ae3e1a35762e0019f3a0a9094a0475cada76491a",
+    "fev_runtime_version": "0.9.0",
+    "official_notebook_sha256": "ec92b8345a8d734af2a6113584ebc133b38d3bebbd984768144c9719d2a84b75",
+    "official_results_sha256": "0ff232e46df6a7bc504ea288053ddae09aebcfcba9b72d90768615a6ebebcc46",
+    "tasks_yaml_sha256": "c7160f61a5e1ded66a3954ef1c514d55d13be18534b34fca817356312a6520a9"
+  },
+  "runtime": {
+    "device": "mps",
+    "wall_time_s": 28.947842836380005
+  },
+  "aggregate": {
+    "mean_absolute_sql_relative_delta_pct": 2.3762678116186806,
+    "max_absolute_sql_relative_delta_pct": 5.5425596056600055,
+    "dataset_fingerprint_match_count": 0
+  },
+  "tasks": [
+    {
+      "task_name": "ETT_1W",
+      "target_count": 7,
+      "horizon": 13,
+      "num_windows": 5,
+      "num_forecasts": 70,
+      "dataset_fingerprint": "7eda996e7e174b76",
+      "official_dataset_fingerprint": "8f5e42f5f75bf725",
+      "dataset_fingerprint_matches_official": false,
+      "metrics": {
+        "SQL": {
+          "local": 2.434176609810602,
+          "official": 2.4006273822757036,
+          "absolute_delta": 0.03354922753489831,
+          "relative_delta_pct": 1.397519156142213
+        },
+        "MASE": {
+          "local": 2.8377560753133677,
+          "official": 2.7941718567537626,
+          "absolute_delta": 0.04358421855960515,
+          "relative_delta_pct": 1.5598259804334584
+        },
+        "WAPE": {
+          "local": 0.5227251982991501,
+          "official": 0.5144633519481202,
+          "absolute_delta": 0.008261846351029889,
+          "relative_delta_pct": 1.605915430077716
+        },
+        "WQL": {
+          "local": 0.4142476580940163,
+          "official": 0.4079933151747325,
+          "absolute_delta": 0.0062543429192838396,
+          "relative_delta_pct": 1.5329523025653677
+        }
+      },
+      "local_wall_time_s": 3.9017090797424316,
+      "local_reported_inference_time_s": 0.6683774150442332,
+      "official_cuda_inference_time_s": 1.0796452279610094
+    },
+    {
+      "task_name": "uci_air_quality_1D",
+      "target_count": 4,
+      "horizon": 28,
+      "num_windows": 11,
+      "num_forecasts": 44,
+      "dataset_fingerprint": "b6e9003deabe1eba",
+      "official_dataset_fingerprint": "43fb5d5ff04d71a5",
+      "dataset_fingerprint_matches_official": false,
+      "metrics": {
+        "SQL": {
+          "local": 1.0301475215708311,
+          "official": 1.0905943642662572,
+          "absolute_delta": -0.060446842695426106,
+          "relative_delta_pct": -5.5425596056600055
+        },
+        "MASE": {
+          "local": 1.293954467279565,
+          "official": 1.36822942378585,
+          "absolute_delta": -0.07427495650628502,
+          "relative_delta_pct": -5.428545477465937
+        },
+        "WAPE": {
+          "local": 0.2626009410212642,
+          "official": 0.2769389353295101,
+          "absolute_delta": -0.014337994308245894,
+          "relative_delta_pct": -5.177312569352564
+        },
+        "WQL": {
+          "local": 0.2075202694695511,
+          "official": 0.2190405278068314,
+          "absolute_delta": -0.011520258337280292,
+          "relative_delta_pct": -5.259418634819872
+        }
+      },
+      "local_wall_time_s": 3.871155023574829,
+      "local_reported_inference_time_s": 1.4267995822010562,
+      "official_cuda_inference_time_s": 2.395071365055628
+    },
+    {
+      "task_name": "gvar",
+      "target_count": 6,
+      "horizon": 8,
+      "num_windows": 10,
+      "num_forecasts": 1980,
+      "dataset_fingerprint": "d404e6be8d6f82fd",
+      "official_dataset_fingerprint": "76e95b6a695482a1",
+      "dataset_fingerprint_matches_official": false,
+      "metrics": {
+        "SQL": {
+          "local": 0.5683954039261077,
+          "official": 0.5673247221989841,
+          "absolute_delta": 0.0010706817271235458,
+          "relative_delta_pct": 0.18872467305382362
+        },
+        "MASE": {
+          "local": 0.6947525884928012,
+          "official": 0.6934148766205311,
+          "absolute_delta": 0.0013377118722700532,
+          "relative_delta_pct": 0.19291652333587173
+        },
+        "WAPE": {
+          "local": 0.018618802228675627,
+          "official": 0.0183738314503562,
+          "absolute_delta": 0.0002449707783194269,
+          "relative_delta_pct": 1.3332590917757536
+        },
+        "WQL": {
+          "local": 0.015096135556186002,
+          "official": 0.0149135270481668,
+          "absolute_delta": 0.00018260850801920213,
+          "relative_delta_pct": 1.2244488337964876
+        }
+      },
+      "local_wall_time_s": 21.128707885742188,
+      "local_reported_inference_time_s": 18.606138458941132,
+      "official_cuda_inference_time_s": 5.373649628949352
+    }
+  ]
+}
