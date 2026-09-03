@@ -7,17 +7,17 @@
   --bg:#f7f9fb; --bg-2:#eef2f6; --ink:#15212b; --ink-2:#4a5966; --line:#d3dbe3;
   --blue:#0072b2; --blue-soft:#dbe9f5; --orange:#d55e00; --orange-soft:#fbe6d8;
   --green:#009e73; --green-soft:#d9f1e9; --yellow:#f0e442; --term-bg:#eef3f8; --term-ink:#243746;
-  --hl:#e8f1fa;
+  --hl:#e8f1fa; --s1:#009E73; --s2:#D55E00;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#0f1820; --bg-2:#162230; --ink:#e8eef3; --ink-2:#a9b7c3; --line:#2b3a48;
   --blue:#5db3e8; --blue-soft:#173349; --orange:#f39a55; --orange-soft:#3d2414;
-  --green:#3cc9a0; --green-soft:#12362b; --yellow:#e2d660; --term-bg:#152232; --term-ink:#d6e1ea; --hl:#1a2a3a;
+  --green:#3cc9a0; --green-soft:#12362b; --yellow:#e2d660; --term-bg:#152232; --term-ink:#d6e1ea; --hl:#1a2a3a; --s1:#22a882; --s2:#cf7b2b;
 }}
 :root[data-theme="dark"]{
   --bg:#0f1820; --bg-2:#162230; --ink:#e8eef3; --ink-2:#a9b7c3; --line:#2b3a48;
   --blue:#5db3e8; --blue-soft:#173349; --orange:#f39a55; --orange-soft:#3d2414;
-  --green:#3cc9a0; --green-soft:#12362b; --yellow:#e2d660; --term-bg:#152232; --term-ink:#d6e1ea; --hl:#1a2a3a;
+  --green:#3cc9a0; --green-soft:#12362b; --yellow:#e2d660; --term-bg:#152232; --term-ink:#d6e1ea; --hl:#1a2a3a; --s1:#22a882; --s2:#cf7b2b;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Pretendard",sans-serif;font-size:20px;line-height:1.5}
@@ -59,6 +59,20 @@ header h2{font-family:"Nanum Myeongjo","Noto Serif KR",serif;font-weight:800;fon
 .mode p{margin:0 0 6px}
 .mode .ex{color:var(--ink-2);font-size:15px}
 .rq{display:grid;gap:14px}
+.train-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.train-row table.num.train{font-size:13px}
+.train-row table.num.train td,.train-row table.num.train th,.train-row table.num.train td:not(:first-child),.train-row table.num.train th:not(:first-child){white-space:normal;text-align:left;font-family:inherit;padding:5px 8px}
+.train-row table.num.train td:first-child{font-weight:700;color:var(--blue);white-space:nowrap}
+.train-fig{display:flex;flex-direction:column;gap:6px}
+.curve{width:100%;height:auto;background:var(--bg-2);border:1px solid var(--line);border-radius:6px}
+.curve .grid{stroke:var(--line);stroke-width:1}
+.curve .tick{fill:var(--ink-2);font-size:11px;font-family:"IBM Plex Mono",monospace}
+.curve .s1{fill:none;stroke:var(--s1);stroke-width:2}
+.curve .s2{fill:none;stroke:var(--s2);stroke-width:2}
+.curve .m1{fill:var(--s1);stroke:var(--bg-2);stroke-width:2}
+.curve .m2{fill:var(--s2);stroke:var(--bg-2);stroke-width:2}
+.curve .lbl{font-size:12px;font-weight:700;fill:var(--ink)}
+.train-fig .caption{font-size:13px}
 .rq-item{display:grid;grid-template-columns:70px 1fr;gap:14px;align-items:start;border:1px solid var(--line);border-radius:8px;padding:12px 16px}
 .rq-tag{font-family:"IBM Plex Mono",monospace;font-weight:700;color:var(--blue);font-size:18px;padding-top:2px}
 .rq-item p{margin:0;font-size:18.5px}
@@ -399,6 +413,33 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="callout-line">두 트랙은 학습 예산과 입력 정보량이 다르므로 <b>한 줄의 순위표로 읽지 않음.</b> 전용 모델이 낮으면 '도메인 학습의 상한', zero-shot이 근접하면 '학습 없이 얻은 효율'로 해석함. 평가 40개 시작점은 어떤 모델 선택에도 쓰지 않았음.</p></div><aside class="terms"><h3>용어</h3><dl><dt>supervised(지도) 학습</dt><dd>정답이 있는 과거 데이터로 모델의 파라미터를 직접 맞추는 것.</dd><dt>seed</dt><dd>학습의 무작위 초기값. 하나만 돌리면 운에 따른 편차를 잴 수 없다.</dd><dt>조기 종료</dt><dd>검증 오차가 더 안 줄면 학습을 멈추는 규칙. 과적합 방지.</dd></dl></aside></div>
 <div class="notes">공정성 경계를 결과보다 먼저 말함. 그래야 다음 슬라이드의 숫자가 과대해석되지 않음.</div>
 </section><section class="slide ">
+<header><p class="eyebrow">5. 결과 · S5</p><h2>S5. 두 도메인 특화 모델은 어떻게 학습했나</h2></header>
+<div class="body with-terms"><div class="main">
+<div class="train-row">
+<table class="num train">
+<tr><th>항목</th><th>DCRNN</th><th>STAEformer</th></tr>
+<tr><td>구조</td><td>도로 인접행렬 위 diffusion convolution + GRU 인코더·디코더(은닉 64, 확산 2단계)</td><td>Transformer 3층·4 head, 시간대·요일·적응형 임베딩(24/24/80), 그래프 입력 없음</td></tr>
+<tr><td>파라미터</td><td>372,353</td><td>1,075,620</td></tr>
+<tr><td>입력 → 출력</td><td colspan="2">12 시점(1시간) → 12 시점(1시간), 속도 정규화 후 학습</td></tr>
+<tr><td>학습 데이터</td><td colspan="2">시계열 앞 절반만 사용. 학습 창 13,685개, 검증 창 3,417개(시간순 분할). 평가 40개 시작점은 사용 안 함</td></tr>
+<tr><td>손실·최적화</td><td>MAE, Adam lr 0.01, 20·30·40·50 epoch에 ×0.1, grad clip 5</td><td>MAE, Adam lr 0.001, weight decay 3e-4, 20·30 epoch에 ×0.1</td></tr>
+<tr><td>종료 규칙</td><td colspan="2">최대 50 epoch, 검증 MAE 8회 연속 비개선이면 중단, 검증 최선 epoch의 가중치 채택</td></tr>
+<tr><td>실행 결과</td><td>41 epoch, 최선 33(검증 2.395), CPU 25.0분</td><td>31 epoch, 최선 23(검증 2.407), MPS 15.0분</td></tr>
+<tr><td>재현성</td><td colspan="2">seed 20260902 1회, Torch-MTS 고정 커밋, 체크포인트를 새 인스턴스에 로드해 40회 재평가로 저장값과 일치 확인</td></tr>
+</table>
+<div class="train-fig"><svg viewBox="0 0 520 300" class="curve" role="img" aria-label="epoch별 검증 MAE, DCRNN과 STAEformer">
+<line x1="44" x2="504" y1="243.1" y2="243.1" class="grid"/><text x="38" y="247.1" class="tick" text-anchor="end">2.4</text><line x1="44" x2="504" y1="197.3" y2="197.3" class="grid"/><text x="38" y="201.3" class="tick" text-anchor="end">2.6</text><line x1="44" x2="504" y1="151.5" y2="151.5" class="grid"/><text x="38" y="155.5" class="tick" text-anchor="end">2.8</text><line x1="44" x2="504" y1="105.6" y2="105.6" class="grid"/><text x="38" y="109.6" class="tick" text-anchor="end">3.0</text><line x1="44" x2="504" y1="59.8" y2="59.8" class="grid"/><text x="38" y="63.8" class="tick" text-anchor="end">3.2</text><line x1="44" x2="504" y1="14.0" y2="14.0" class="grid"/><text x="38" y="18.0" class="tick" text-anchor="end">3.4</text><text x="44.0" y="282" class="tick" text-anchor="middle">1</text><text x="147.5" y="282" class="tick" text-anchor="middle">10</text><text x="262.5" y="282" class="tick" text-anchor="middle">20</text><text x="377.5" y="282" class="tick" text-anchor="middle">30</text><text x="504.0" y="282" class="tick" text-anchor="middle">41</text>
+<text x="274" y="296" class="tick" text-anchor="middle">epoch</text>
+<text x="10" y="20" class="tick" transform="rotate(-90 10 20)" text-anchor="end">검증 MAE (mph)</text>
+<path d="M44.0,53.0 L55.5,151.4 L67.0,155.0 L78.5,177.4 L90.0,169.7 L101.5,181.1 L113.0,181.4 L124.5,132.7 L136.0,202.4 L147.5,211.8 L159.0,226.4 L170.5,224.4 L182.0,229.1 L193.5,234.9 L205.0,227.9 L216.5,232.8 L228.0,228.4 L239.5,228.0 L251.0,225.2 L262.5,229.7 L274.0,242.1 L285.5,244.0 L297.0,242.8 L308.5,243.5 L320.0,243.7 L331.5,243.7 L343.0,243.4 L354.5,244.1 L366.0,243.3 L377.5,244.0 L389.0,243.7 L400.5,243.8 L412.0,244.2 L423.5,243.9 L435.0,243.9 L446.5,243.9 L458.0,243.9 L469.5,243.8 L481.0,243.8 L492.5,243.6 L504.0,243.7" class="s1"/>
+<path d="M44.0,23.6 L55.5,131.7 L67.0,145.1 L78.5,174.7 L90.0,182.2 L101.5,169.2 L113.0,186.3 L124.5,177.3 L136.0,213.1 L147.5,215.8 L159.0,208.3 L170.5,203.7 L182.0,222.7 L193.5,201.9 L205.0,223.9 L216.5,198.7 L228.0,224.1 L239.5,219.1 L251.0,226.6 L262.5,230.6 L274.0,240.5 L285.5,240.5 L297.0,241.6 L308.5,240.7 L320.0,240.9 L331.5,239.7 L343.0,240.3 L354.5,241.1 L366.0,239.9 L377.5,240.6 L389.0,241.3" class="s2" stroke-dasharray="6 4"/>
+<circle cx="412.0" cy="244.2" r="5" class="m1"/><circle cx="297.0" cy="241.6" r="5" class="m2"/>
+<text x="502.0" y="235.7" class="lbl l1" text-anchor="end">DCRNN · 최선 33 ep, 2.395</text>
+<text x="387.0" y="259.3" class="lbl l2" text-anchor="end">STAEformer · 최선 23 ep, 2.407</text>
+</svg><p class="caption">epoch별 검증 MAE. 실선 DCRNN, 점선 STAEformer, 점은 채택한 최선 epoch. 둘 다 20 epoch 근처의 학습률 감쇠 뒤 수렴했고 검증 오차는 2.40 안팎으로 비슷함. 40회 평가 MAE(2.74, 2.80)가 검증 값보다 높은 것은 평가 구간이 학습 구간보다 뒤이고 결측 없는 날만 골랐기 때문.</p></div>
+</div></div><aside class="terms"><h3>용어</h3><dl><dt>epoch</dt><dd>학습 데이터 전체를 한 번 훑는 단위.</dd><dt>검증 세트</dt><dd>학습에 쓰지 않고 '언제 멈출지'와 '어느 epoch를 쓸지'를 정하는 데만 쓰는 데이터.</dd><dt>학습률 감쇠</dt><dd>학습이 진행되면 보폭(학습률)을 줄여 미세 조정하는 규칙.</dd><dt>seed</dt><dd>학습의 무작위 초기값. 1회만 돌렸으므로 운에 따른 편차는 재지 않았음.</dd></dl></aside></div>
+<div class="notes">청중이 '전용 모델을 제대로 학습했나'를 의심할 수 있으므로 표준 설정(12→12, MAE 손실, 조기 종료)을 그대로 따랐음을 보임. 다만 16센서 부분 그래프와 1 seed는 한계로 22쪽에서 다룸.</div>
+</section><section class="slide ">
 <header><p class="eyebrow">5. 결과 · S5</p><h2>S5. 결과: Chronos-2보다 낮고, DCRNN과는 판정 보류</h2></header>
 <div class="body full"><div class="main">
 <div class="fig-row big">
@@ -584,7 +625,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="sub">질문 환영</p>
 <p class="meta">논문 v10과 결과 JSON, 체크포인트, 재현 명령은 프로젝트 저장소 <span class="mono">docs/</span>와 <span class="mono">artifacts/</span>에 있음.</p>
 </div>
-<div class="notes">예상 질문: (1) 왜 16개 센서인가 → 슬라이드 11. (2) DCRNN이 불리한 것 아닌가 → 슬라이드 22, 맞다, 그래서 판정 보류. (3) 1~2%가 의미 있나 → 슬라이드 19, 학습 없이 반복 획득되는 이득. (4) 도로 그래프 정보를 못 쓰는 게 한계 아닌가 → 선형 그래프 진단은 논문 7.5절; 구조 정보는 있지만 단순 선형으로는 못 살렸고, 실제 판정은 DCRNN 비교로 넘김. (4) 실무 적용 가능한가 → 라이선스상 불가, 그리고 입력 선택은 여전히 사람의 몫.</div>
+<div class="notes">예상 질문: (1) 왜 16개 센서인가 → 슬라이드 11. (2) DCRNN이 불리한 것 아닌가 → 슬라이드 23, 맞다, 그래서 판정 보류. (3) 1~2%가 의미 있나 → 슬라이드 20, 학습 없이 반복 획득되는 이득. (4) 도로 그래프 정보를 못 쓰는 게 한계 아닌가 → 선형 그래프 진단은 논문 7.5절; 구조 정보는 있지만 단순 선형으로는 못 살렸고, 실제 판정은 DCRNN 비교로 넘김. (4) 실무 적용 가능한가 → 라이선스상 불가, 그리고 입력 선택은 여전히 사람의 몫.</div>
 </section>
 <div class="help"><kbd>←</kbd> <kbd>→</kbd> 이동 · <kbd>N</kbd> 발표자 노트</div>
 <div class="hud"><span class="pos"></span></div>
@@ -810,6 +851,33 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="callout-line">두 트랙은 학습 예산과 입력 정보량이 다르므로 <b>한 줄의 순위표로 읽지 않음.</b> 전용 모델이 낮으면 '도메인 학습의 상한', zero-shot이 근접하면 '학습 없이 얻은 효율'로 해석함. 평가 40개 시작점은 어떤 모델 선택에도 쓰지 않았음.</p></div><aside class="terms"><h3>용어</h3><dl><dt>supervised(지도) 학습</dt><dd>정답이 있는 과거 데이터로 모델의 파라미터를 직접 맞추는 것.</dd><dt>seed</dt><dd>학습의 무작위 초기값. 하나만 돌리면 운에 따른 편차를 잴 수 없다.</dd><dt>조기 종료</dt><dd>검증 오차가 더 안 줄면 학습을 멈추는 규칙. 과적합 방지.</dd></dl></aside></div>
 <div class="notes">공정성 경계를 결과보다 먼저 말함. 그래야 다음 슬라이드의 숫자가 과대해석되지 않음.</div>
 </section></div><div class="deck print-clone" style="display:none"><section class="slide ">
+<header><p class="eyebrow">5. 결과 · S5</p><h2>S5. 두 도메인 특화 모델은 어떻게 학습했나</h2></header>
+<div class="body with-terms"><div class="main">
+<div class="train-row">
+<table class="num train">
+<tr><th>항목</th><th>DCRNN</th><th>STAEformer</th></tr>
+<tr><td>구조</td><td>도로 인접행렬 위 diffusion convolution + GRU 인코더·디코더(은닉 64, 확산 2단계)</td><td>Transformer 3층·4 head, 시간대·요일·적응형 임베딩(24/24/80), 그래프 입력 없음</td></tr>
+<tr><td>파라미터</td><td>372,353</td><td>1,075,620</td></tr>
+<tr><td>입력 → 출력</td><td colspan="2">12 시점(1시간) → 12 시점(1시간), 속도 정규화 후 학습</td></tr>
+<tr><td>학습 데이터</td><td colspan="2">시계열 앞 절반만 사용. 학습 창 13,685개, 검증 창 3,417개(시간순 분할). 평가 40개 시작점은 사용 안 함</td></tr>
+<tr><td>손실·최적화</td><td>MAE, Adam lr 0.01, 20·30·40·50 epoch에 ×0.1, grad clip 5</td><td>MAE, Adam lr 0.001, weight decay 3e-4, 20·30 epoch에 ×0.1</td></tr>
+<tr><td>종료 규칙</td><td colspan="2">최대 50 epoch, 검증 MAE 8회 연속 비개선이면 중단, 검증 최선 epoch의 가중치 채택</td></tr>
+<tr><td>실행 결과</td><td>41 epoch, 최선 33(검증 2.395), CPU 25.0분</td><td>31 epoch, 최선 23(검증 2.407), MPS 15.0분</td></tr>
+<tr><td>재현성</td><td colspan="2">seed 20260902 1회, Torch-MTS 고정 커밋, 체크포인트를 새 인스턴스에 로드해 40회 재평가로 저장값과 일치 확인</td></tr>
+</table>
+<div class="train-fig"><svg viewBox="0 0 520 300" class="curve" role="img" aria-label="epoch별 검증 MAE, DCRNN과 STAEformer">
+<line x1="44" x2="504" y1="243.1" y2="243.1" class="grid"/><text x="38" y="247.1" class="tick" text-anchor="end">2.4</text><line x1="44" x2="504" y1="197.3" y2="197.3" class="grid"/><text x="38" y="201.3" class="tick" text-anchor="end">2.6</text><line x1="44" x2="504" y1="151.5" y2="151.5" class="grid"/><text x="38" y="155.5" class="tick" text-anchor="end">2.8</text><line x1="44" x2="504" y1="105.6" y2="105.6" class="grid"/><text x="38" y="109.6" class="tick" text-anchor="end">3.0</text><line x1="44" x2="504" y1="59.8" y2="59.8" class="grid"/><text x="38" y="63.8" class="tick" text-anchor="end">3.2</text><line x1="44" x2="504" y1="14.0" y2="14.0" class="grid"/><text x="38" y="18.0" class="tick" text-anchor="end">3.4</text><text x="44.0" y="282" class="tick" text-anchor="middle">1</text><text x="147.5" y="282" class="tick" text-anchor="middle">10</text><text x="262.5" y="282" class="tick" text-anchor="middle">20</text><text x="377.5" y="282" class="tick" text-anchor="middle">30</text><text x="504.0" y="282" class="tick" text-anchor="middle">41</text>
+<text x="274" y="296" class="tick" text-anchor="middle">epoch</text>
+<text x="10" y="20" class="tick" transform="rotate(-90 10 20)" text-anchor="end">검증 MAE (mph)</text>
+<path d="M44.0,53.0 L55.5,151.4 L67.0,155.0 L78.5,177.4 L90.0,169.7 L101.5,181.1 L113.0,181.4 L124.5,132.7 L136.0,202.4 L147.5,211.8 L159.0,226.4 L170.5,224.4 L182.0,229.1 L193.5,234.9 L205.0,227.9 L216.5,232.8 L228.0,228.4 L239.5,228.0 L251.0,225.2 L262.5,229.7 L274.0,242.1 L285.5,244.0 L297.0,242.8 L308.5,243.5 L320.0,243.7 L331.5,243.7 L343.0,243.4 L354.5,244.1 L366.0,243.3 L377.5,244.0 L389.0,243.7 L400.5,243.8 L412.0,244.2 L423.5,243.9 L435.0,243.9 L446.5,243.9 L458.0,243.9 L469.5,243.8 L481.0,243.8 L492.5,243.6 L504.0,243.7" class="s1"/>
+<path d="M44.0,23.6 L55.5,131.7 L67.0,145.1 L78.5,174.7 L90.0,182.2 L101.5,169.2 L113.0,186.3 L124.5,177.3 L136.0,213.1 L147.5,215.8 L159.0,208.3 L170.5,203.7 L182.0,222.7 L193.5,201.9 L205.0,223.9 L216.5,198.7 L228.0,224.1 L239.5,219.1 L251.0,226.6 L262.5,230.6 L274.0,240.5 L285.5,240.5 L297.0,241.6 L308.5,240.7 L320.0,240.9 L331.5,239.7 L343.0,240.3 L354.5,241.1 L366.0,239.9 L377.5,240.6 L389.0,241.3" class="s2" stroke-dasharray="6 4"/>
+<circle cx="412.0" cy="244.2" r="5" class="m1"/><circle cx="297.0" cy="241.6" r="5" class="m2"/>
+<text x="502.0" y="235.7" class="lbl l1" text-anchor="end">DCRNN · 최선 33 ep, 2.395</text>
+<text x="387.0" y="259.3" class="lbl l2" text-anchor="end">STAEformer · 최선 23 ep, 2.407</text>
+</svg><p class="caption">epoch별 검증 MAE. 실선 DCRNN, 점선 STAEformer, 점은 채택한 최선 epoch. 둘 다 20 epoch 근처의 학습률 감쇠 뒤 수렴했고 검증 오차는 2.40 안팎으로 비슷함. 40회 평가 MAE(2.74, 2.80)가 검증 값보다 높은 것은 평가 구간이 학습 구간보다 뒤이고 결측 없는 날만 골랐기 때문.</p></div>
+</div></div><aside class="terms"><h3>용어</h3><dl><dt>epoch</dt><dd>학습 데이터 전체를 한 번 훑는 단위.</dd><dt>검증 세트</dt><dd>학습에 쓰지 않고 '언제 멈출지'와 '어느 epoch를 쓸지'를 정하는 데만 쓰는 데이터.</dd><dt>학습률 감쇠</dt><dd>학습이 진행되면 보폭(학습률)을 줄여 미세 조정하는 규칙.</dd><dt>seed</dt><dd>학습의 무작위 초기값. 1회만 돌렸으므로 운에 따른 편차는 재지 않았음.</dd></dl></aside></div>
+<div class="notes">청중이 '전용 모델을 제대로 학습했나'를 의심할 수 있으므로 표준 설정(12→12, MAE 손실, 조기 종료)을 그대로 따랐음을 보임. 다만 16센서 부분 그래프와 1 seed는 한계로 22쪽에서 다룸.</div>
+</section></div><div class="deck print-clone" style="display:none"><section class="slide ">
 <header><p class="eyebrow">5. 결과 · S5</p><h2>S5. 결과: Chronos-2보다 낮고, DCRNN과는 판정 보류</h2></header>
 <div class="body full"><div class="main">
 <div class="fig-row big">
@@ -995,7 +1063,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="sub">질문 환영</p>
 <p class="meta">논문 v10과 결과 JSON, 체크포인트, 재현 명령은 프로젝트 저장소 <span class="mono">docs/</span>와 <span class="mono">artifacts/</span>에 있음.</p>
 </div>
-<div class="notes">예상 질문: (1) 왜 16개 센서인가 → 슬라이드 11. (2) DCRNN이 불리한 것 아닌가 → 슬라이드 22, 맞다, 그래서 판정 보류. (3) 1~2%가 의미 있나 → 슬라이드 19, 학습 없이 반복 획득되는 이득. (4) 도로 그래프 정보를 못 쓰는 게 한계 아닌가 → 선형 그래프 진단은 논문 7.5절; 구조 정보는 있지만 단순 선형으로는 못 살렸고, 실제 판정은 DCRNN 비교로 넘김. (4) 실무 적용 가능한가 → 라이선스상 불가, 그리고 입력 선택은 여전히 사람의 몫.</div>
+<div class="notes">예상 질문: (1) 왜 16개 센서인가 → 슬라이드 11. (2) DCRNN이 불리한 것 아닌가 → 슬라이드 23, 맞다, 그래서 판정 보류. (3) 1~2%가 의미 있나 → 슬라이드 20, 학습 없이 반복 획득되는 이득. (4) 도로 그래프 정보를 못 쓰는 게 한계 아닌가 → 선형 그래프 진단은 논문 7.5절; 구조 정보는 있지만 단순 선형으로는 못 살렸고, 실제 판정은 DCRNN 비교로 넘김. (4) 실무 적용 가능한가 → 라이선스상 불가, 그리고 입력 선택은 여전히 사람의 몫.</div>
 </section></div>
 <script>
 const deck=document.querySelector('.deck.screen');const slides=[...deck.querySelectorAll('.slide')];
