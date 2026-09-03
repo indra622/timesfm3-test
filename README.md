@@ -153,15 +153,16 @@ train/test split from the target domain before drawing deployment conclusions.
 ## Research report
 
 The complete phase-1 study is available in both Markdown and PDF. The
-current version is v10, which adds a hypothesis-level discussion of where the
-model could apply in non-life insurance work (section 9.5). v09 rewrote the
-synthetic daily-demand section; all numeric results are unchanged since v08.
+current version is v11, whose section 9.5 lists insurance use cases where
+multivariate forecasting is needed and, for each, why an advantage over
+univariate forecasting is expected, mapped to the three gain paths observed in
+the experiments. All numeric results are unchanged since v08.
 
-- [`docs/TimesFM 3 다변량 예측 실증 연구리포트 v10.md`](<docs/TimesFM 3 다변량 예측 실증 연구리포트 v10.md>)
-- [`docs/TimesFM 3 다변량 예측 실증 연구리포트 v10.pdf`](<docs/TimesFM 3 다변량 예측 실증 연구리포트 v10.pdf>)
+- [`docs/TimesFM 3 다변량 예측 실증 연구리포트 v11.md`](<docs/TimesFM 3 다변량 예측 실증 연구리포트 v11.md>)
+- [`docs/TimesFM 3 다변량 예측 실증 연구리포트 v11.pdf`](<docs/TimesFM 3 다변량 예측 실증 연구리포트 v11.pdf>)
 - Conference talk slides: [`docs/slides/TimesFM 3 다변량 예측 실증 발표 v2.html`](<docs/slides/TimesFM 3 다변량 예측 실증 발표 v2.html>)
 
-Prior versions (kept for reference): v09 and v08 Markdown and PDF in `docs/`,
+Prior versions (kept for reference): v10, v09 and v08 Markdown and PDF in `docs/`,
 slides v1 in `docs/slides/`. See `docs/README.md`.
 
 ## Sources
