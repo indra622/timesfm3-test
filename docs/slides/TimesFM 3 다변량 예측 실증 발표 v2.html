@@ -415,7 +415,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="caption">95% 구간(해당 모델 − TimesFM 다변량): Chronos-2 [−0.193, −0.095]는 TimesFM 기준, DCRNN [−0.006, 0.371], STAEformer [0.038, 0.446].</p>
 <p>TimesFM 3 다변량은 Chronos-2 다변량보다 5.24% 낮고 28/40 승. Chronos-2 자체의 다변량 이득은 구간이 0을 포함.</p>
 <p><b>DCRNN과는 우열 미확정.</b> 평균 차이 +0.17의 97%가 4개 시작점(특히 36번, +4.03)에서 나왔고 중앙값은 +0.04, DCRNN이 16/40 승. 어려운 며칠을 빼면 차이가 사라지므로 승패를 선언하지 않음.</p>
-<aside class="terms"><h3>용어</h3><dl><dt>+5.5% vs −5.24%</dt><dd>같은 차이를 어느 쪽 기준으로 나누느냐의 차이. 논문은 TimesFM 기준.</dd><dt>판정 보류</dt><dd>구간이 0을 포함하면 재실험 시 부호가 바뀔 수 있어 승패를 선언하지 않음.</dd></dl></aside>
+<p class="caption">표의 %는 해당 모델 기준(+5.5%)이고 논문은 TimesFM 기준(−5.24%)으로 적음. 같은 차이를 어느 쪽으로 나누느냐의 차이.</p>
 </div></div></div></div>
 <div class="notes">비용 메모: Chronos-2는 40회 추론 11초, TimesFM 3는 17~20초, DCRNN 학습 25분(CPU), STAEformer 15분(MPS). 단 래퍼가 달라 순수 속도 비교는 아님. 그림 위: 파랑 zero-shot TimesFM, 주황 zero-shot Chronos-2, 초록 supervised. 아래: origin별 MAE, supervised 모델은 어려운 origin(18, 36)에서 분산이 큼.</div>
 </section><section class="slide ">
@@ -826,7 +826,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <p class="caption">95% 구간(해당 모델 − TimesFM 다변량): Chronos-2 [−0.193, −0.095]는 TimesFM 기준, DCRNN [−0.006, 0.371], STAEformer [0.038, 0.446].</p>
 <p>TimesFM 3 다변량은 Chronos-2 다변량보다 5.24% 낮고 28/40 승. Chronos-2 자체의 다변량 이득은 구간이 0을 포함.</p>
 <p><b>DCRNN과는 우열 미확정.</b> 평균 차이 +0.17의 97%가 4개 시작점(특히 36번, +4.03)에서 나왔고 중앙값은 +0.04, DCRNN이 16/40 승. 어려운 며칠을 빼면 차이가 사라지므로 승패를 선언하지 않음.</p>
-<aside class="terms"><h3>용어</h3><dl><dt>+5.5% vs −5.24%</dt><dd>같은 차이를 어느 쪽 기준으로 나누느냐의 차이. 논문은 TimesFM 기준.</dd><dt>판정 보류</dt><dd>구간이 0을 포함하면 재실험 시 부호가 바뀔 수 있어 승패를 선언하지 않음.</dd></dl></aside>
+<p class="caption">표의 %는 해당 모델 기준(+5.5%)이고 논문은 TimesFM 기준(−5.24%)으로 적음. 같은 차이를 어느 쪽으로 나누느냐의 차이.</p>
 </div></div></div></div>
 <div class="notes">비용 메모: Chronos-2는 40회 추론 11초, TimesFM 3는 17~20초, DCRNN 학습 25분(CPU), STAEformer 15분(MPS). 단 래퍼가 달라 순수 속도 비교는 아님. 그림 위: 파랑 zero-shot TimesFM, 주황 zero-shot Chronos-2, 초록 supervised. 아래: origin별 MAE, supervised 모델은 어려운 origin(18, 36)에서 분산이 큼.</div>
 </section></div><div class="deck print-clone" style="display:none"><section class="slide ">
